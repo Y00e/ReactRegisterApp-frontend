@@ -5,11 +5,13 @@ const ListPlayerComponent = () => {
   
   const [players, setPlayers] = useState([])
   const navigator = useNavigate();
-  
+
+  // Körs när komponenten mountas
   useEffect(() => {
     getAllPlayers();
   }, [])
 
+  // Funktion för att hämta alla spelare och updatera state 
   function getAllPlayers() {
     listPlayers().then((response) => {
       setPlayers(response.data)
@@ -18,14 +20,17 @@ const ListPlayerComponent = () => {
     })
   }
 
+  // Funktion för att navigera till sidan för att lägga till ny spelare
   function addNewPlayer(){
     navigator('/add-player')
   }
   
+  // Funktion för att navigera till sidan för updatera 
   function updatePlayer(id) {
     navigator(`/edit-player/${id}`)
   }
 
+  // funktion för att ta nort en spelare och updatera listan
   function removePlayer(id){
     console.log(id);
 
@@ -36,6 +41,7 @@ const ListPlayerComponent = () => {
     })
   }
   
+  // renderar
   return (
     <div className='container'>
       <h2 className='text-center'>List of Players</h2>

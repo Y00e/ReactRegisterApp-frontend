@@ -11,6 +11,7 @@ const PlayerComponent = () => {
   const [birthday, setBirthday] = useState('');
 
   const {id} = useParams();
+  // state för hålla valideringsfel 
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',
@@ -22,7 +23,7 @@ const PlayerComponent = () => {
   const navigator = useNavigate();
 
   useEffect(() => {
-
+    // om id finns hämtar den från API  och fyller i formuläret
     if(id){
       getPlayer(id).then((response) => {
         setFirstName(response.data.firstName);
@@ -37,6 +38,7 @@ const PlayerComponent = () => {
 
   }, [id])
 
+  // hanterar när formuläret skickas in
   function saveOrUpdatePlayer(e){
     e.preventDefault();
 
@@ -45,6 +47,7 @@ const PlayerComponent = () => {
       const player = {firstName, lastName, email, phoneNumber, birthday}
       console.log(player)
 
+      // om spelare finns, updatera spelaren, annars skapa en ny
       if(id){
         updatePlayer(id, player).then((response) => {
           console.log(response.data);
@@ -63,11 +66,14 @@ const PlayerComponent = () => {
     }
   }
 
+  // validerar formuläret
   function validateForm(){
     let valid = true;
 
+    // kopierar errors
     const errorsCopy = {... errors}
 
+    // kontrollerar varje fält och sätt felmeddelande om det är tomt 
     if(firstName.trim()){
       errorsCopy.firstName = '';
     } else {
@@ -103,11 +109,13 @@ const PlayerComponent = () => {
       valid = false;
     }
 
+    // updatera error
     setErrors(errorsCopy);
-
+    // returnera om det är giltigt
     return valid;
   }
 
+  // funktiom för att visa rätt sidtitel beronde på om vi lägger till eller uppdaterar 
   function pageTitle(){
     if(id){
       return <h2 className='text-center'>Update Basketball Player</h2>
@@ -117,7 +125,7 @@ const PlayerComponent = () => {
   }
 
   
-
+  // renderar komponenter 
   return (
     <div className='container'>
       <br /> <br />
